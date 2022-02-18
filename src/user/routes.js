@@ -4,7 +4,7 @@ const bcrypt = require('bcrypt');
 require('dotenv').config();
 
 const routes = express.Router({
-   mergeParams: true
+    mergeParams: true
 });
 var AWS = require('aws-sdk');
 
@@ -18,17 +18,25 @@ routes.get("/", (req, res) => {
         TableName: 'UsersTable',
         KeyConditionExpression: "id = :id",
         ExpressionAttributeValues: {
-            ":id": "7c1059f0-8fe2-11ec-9bb5-a5d229186a17",
+            ":id": "8e12a970-9094-11ec-b175-812b41eda861",
         },
     };
 
-    let results  = dynamoDbClient.query(params);
-
-    res.status(200).json({
-        'status': 200,
-        'message': 'user list',
-        'db': dynamoDbClientParams,
-        'users': results.Item
+    dynamoDbClient.query(params, function (err, data) {
+        if (err) {
+            console.error("Unable to add item. Error JSON:", JSON.stringify(err, null, 2));
+            res.status(200).json({
+                'status': 201,
+                'message': err,
+            });
+        } else {
+            res.status(200).json({
+                'status': 200,
+                'message': 'user list',
+                'db': dynamoDbClientParams,
+                'users': data.Items
+            });
+        }
     });
 
 });
@@ -51,7 +59,7 @@ routes.post("/create", (req, res) => {
         },
     };
 
-    dynamoDbClient.put(params,function(err, data) {
+    dynamoDbClient.put(params, function (err, data) {
         if (err) {
             console.error("Unable to add item. Error JSON:", JSON.stringify(err, null, 2));
             res.status(200).json({
