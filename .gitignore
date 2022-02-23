@@ -6,6 +6,9 @@ jspm_packages
 .serverless
 
 .env
+.env.local
+.env.dev
+.env.production
 .gitignore
 .dynamodb
 dbdump

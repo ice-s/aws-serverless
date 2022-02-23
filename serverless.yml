@@ -3,9 +3,9 @@
 # This file is the main config file for your service.
 # It's very minimal at this point and uses default values.
 # You can always add more config options for more control.
-service: lambda-test
+service: api-ices-me
 frameworkVersion: '3'
-
+useDotenv: true
 custom:
   dynamodb:
     start:
@@ -17,10 +17,23 @@ custom:
       seed: true
       convertEmptyValues: true
     stages:
-      - dev
+      - ${env:STAGE}
 provider:
   name: aws
   runtime: nodejs12.x
+  region: ${env:AWS_APP_REGION}
+  environment:
+    REGION: "${self:provider.region}"
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:Query
+        - dynamodb:Scan
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+        - dynamodb:UpdateItem
+        - dynamodb:DeleteItem
+      Resource: "arn:aws:dynamodb:us-east-1:*:*"
 
 functions:
   app-api:
@@ -37,6 +50,7 @@ functions:
 plugins:
   - serverless-dynamodb-local
   - serverless-offline
+  - serverless-dotenv-plugin
 resources:
   Resources:
     UsersTable:
@@ -53,6 +67,7 @@ resources:
             KeyType: HASH
           - AttributeName: username
             KeyType: RANGE
-        ProvisionedThroughput:
-          ReadCapacityUnits: 1
-          WriteCapacityUnits: 1
+        BillingMode: PAY_PER_REQUEST
+#        ProvisionedThroughput:
+#          ReadCapacityUnits: 1
+#          WriteCapacityUnits: 1
