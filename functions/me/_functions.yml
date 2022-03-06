@@ -1,0 +1,33 @@
+me:
+  handler: profile.handler
+  events:
+    - http:
+        path: me
+        method: get
+        cors: true
+        authorizer:
+          name: verify-token
+          identitySource: method.request.header.Authorization
+          resultTtlInSeconds: 3600
+me2:
+  handler: profile.handler
+  events:
+    - http:
+        path: me2
+        method: get
+        cors: true
+#        authorizer:
+#          name: verify-token
+#          identitySource: method.request.header.Authorization
+#          resultTtlInSeconds: 3600
+my-articles:
+  handler: posts.handler
+  events:
+    - http:
+        path: me/articles
+        method: get
+        cors: true
+        authorizer:
+          name: verify-token
+          identitySource: method.request.header.Authorization
+          resultTtlInSeconds: 3600

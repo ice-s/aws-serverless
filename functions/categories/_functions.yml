@@ -1,0 +1,7 @@
+categories:
+  handler: index.handler
+  events:
+    - http:
+        path: /categories
+        method: get
+        cors: true

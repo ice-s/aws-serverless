@@ -1,0 +1,7 @@
+posts:
+  handler: index.handler
+  events:
+    - http:
+        path: /articles
+        method: get
+        cors: true

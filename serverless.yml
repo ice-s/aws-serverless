@@ -33,20 +33,13 @@ provider:
         - dynamodb:PutItem
         - dynamodb:UpdateItem
         - dynamodb:DeleteItem
-      Resource: "arn:aws:dynamodb:us-east-1:*:*"
+      Resource: "arn:aws:dynamodb:${env:AWS_APP_REGION}:*:*"
 
 functions:
-  app-api:
-    handler: handler.handler
-    events:
-      - http:
-          path: /
-          method: get
-          cors: true
-      - http:
-          path: /{proxy+}
-          method: any
-          cors: true
+  - ${file(functions/auth/_functions.yml)}
+  - ${file(functions/articles/_functions.yml)}
+  - ${file(functions/categories/_functions.yml)}
+  - ${file(functions/me/_functions.yml)}
 plugins:
   - serverless-dynamodb-local
   - serverless-offline
@@ -66,6 +59,42 @@ resources:
           - AttributeName: id
             KeyType: HASH
           - AttributeName: username
+            KeyType: RANGE
+        BillingMode: PAY_PER_REQUEST
+    #        ProvisionedThroughput:
+    #          ReadCapacityUnits: 1
+    #          WriteCapacityUnits: 1
+    CategoriesTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: CategoriesTable
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+          - AttributeName: name
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+          - AttributeName: name
+            KeyType: RANGE
+        BillingMode: PAY_PER_REQUEST
+    #        ProvisionedThroughput:
+    #          ReadCapacityUnits: 1
+    #          WriteCapacityUnits: 1
+    PostsTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: PostsTable
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+          - AttributeName: title
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+          - AttributeName: title
             KeyType: RANGE
         BillingMode: PAY_PER_REQUEST
 #        ProvisionedThroughput:

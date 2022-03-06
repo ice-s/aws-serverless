@@ -1,0 +1,16 @@
+verify-token:
+  handler: authorize.handler
+login:
+  handler: login.handler
+  events:
+    - http:
+        path: /auth/login
+        method: post
+        cors: true
+register:
+  handler: register.handler
+  events:
+    - http:
+        path: /auth/register
+        method: post
+        cors: true
