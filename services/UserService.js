@@ -27,10 +27,22 @@ const getUserByEmail = async email => {
     const params = {
         // Get the table name from the environment variable
         TableName: 'UsersTable',
-        KeyConditionExpression: "id = :id",
-        ExpressionAttributeValues: {
-            ":id": "8e12a970-9094-11ec-b175-812b41eda861",
+        Key: {
+            "email": "d64bad32-9f95-11ec-b1af-5dd856d9aa56@gmail.com",
+            "id": "d64bad30-9f95-11ec-b1af-5dd856d9aa56"
         },
+        // KeyConditionExpression: "#pk = :pkValue",
+        // ExpressionAttributeNames: {
+        //     "#pk": "email",
+        // },
+        // ExpressionAttributeValues: {
+        //     ":pkValue": email,
+        // },
+        // // FilterExpression : '#password= :passwordValue',
+        // // ExpressionAttributeNames : {
+        // //     '#password' : 'password'
+        // // },
+        // ScanIndexForward: true,
     };
 
     return await docClient.get(params).promise();

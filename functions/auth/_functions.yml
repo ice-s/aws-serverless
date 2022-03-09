@@ -1,14 +1,14 @@
 verify-token:
-  handler: authorize.handler
+  handler: functions/auth/authorize.handler
 login:
-  handler: login.handler
+  handler: functions/auth/login.handler
   events:
     - http:
         path: /auth/login
         method: post
         cors: true
 register:
-  handler: register.handler
+  handler: functions/auth/register.handler
   events:
     - http:
         path: /auth/register

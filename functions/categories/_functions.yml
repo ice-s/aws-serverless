@@ -1,5 +1,5 @@
 categories:
-  handler: index.handler
+  handler: functions/categories/index.handler
   events:
     - http:
         path: /categories

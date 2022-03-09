@@ -1,5 +1,5 @@
 posts:
-  handler: index.handler
+  handler: functions/articles/index.handler
   events:
     - http:
         path: /articles

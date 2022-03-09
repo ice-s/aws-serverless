@@ -1,21 +1,14 @@
 const UserService = require("../../services/UserService");
-const { getUserFromToken } = require("../../lib/utils");
+const {getUserFromToken} = require("../../services/AuthService");
 
-module.exports.handler = async function(event) {
+module.exports.handler = async function (event) {
+    const userObj = await getUserFromToken(event.headers.Authorization);
 
-  return {
-    statusCode: 200,
-    headers: {},
-  };
+    const dbUser = await UserService.getUserByEmail(userObj.email);
 
-
-  const userObj = await getUserFromToken(event.headers.Authorization);
-
-  const dbUser = await UserService.getUserByEmail(userObj.email);
-
-  return {
-    statusCode: 200,
-    headers: {},
-    body: JSON.stringify(dbUser)
-  };
+    return {
+        statusCode: 200,
+        headers: {},
+        body: JSON.stringify(dbUser)
+    };
 };

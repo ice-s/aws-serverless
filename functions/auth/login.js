@@ -1,4 +1,4 @@
-const {login} = require("../../lib/utils");
+const {login} = require("../../services/AuthService");
 
 module.exports.handler = async function signInUser(event) {
     const body = JSON.parse(event.body);

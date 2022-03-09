@@ -1,5 +1,5 @@
 const UserService = require("../../services/UserService");
-const {getUserFromToken} = require("../../lib/utils");
+const {getUserFromToken} = require("../../services/AuthService");
 
 module.exports.handler = async function (event) {
     const userObj = await getUserFromToken(event.headers.Authorization);
