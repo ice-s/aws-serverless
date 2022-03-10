@@ -53,15 +53,11 @@ resources:
       Properties:
         TableName: UsersTable
         AttributeDefinitions:
-          - AttributeName: id
-            AttributeType: S
           - AttributeName: email
             AttributeType: S
         KeySchema:
           - AttributeName: email
             KeyType: HASH
-          - AttributeName: id
-            KeyType: RANGE
 #        BillingMode: PAY_PER_REQUEST
         ProvisionedThroughput:
           ReadCapacityUnits: 1
@@ -73,13 +69,9 @@ resources:
         AttributeDefinitions:
           - AttributeName: id
             AttributeType: S
-          - AttributeName: name
-            AttributeType: S
         KeySchema:
           - AttributeName: name
             KeyType: HASH
-          - AttributeName: id
-            KeyType: RANGE
 #        BillingMode: PAY_PER_REQUEST
         ProvisionedThroughput:
           ReadCapacityUnits: 1
@@ -89,15 +81,11 @@ resources:
       Properties:
         TableName: PostsTable
         AttributeDefinitions:
-          - AttributeName: id
-            AttributeType: S
           - AttributeName: title
             AttributeType: S
         KeySchema:
           - AttributeName: title
             KeyType: HASH
-          - AttributeName: id
-            KeyType: RANGE
 #        BillingMode: PAY_PER_REQUEST
         ProvisionedThroughput:
           ReadCapacityUnits: 1

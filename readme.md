@@ -1,3 +1,6 @@
+```
+cp secrets.sample.json secrets.json
+```
 
 ```
 sls plugin install -n serverless-offline
