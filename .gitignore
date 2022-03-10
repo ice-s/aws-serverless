@@ -9,7 +9,7 @@ jspm_packages
 .env.local
 .env.dev
 .env.production
-.gitignore
+secrets.json
 .dynamodb
 dbdump
 .idea
