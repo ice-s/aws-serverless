@@ -4,7 +4,6 @@ const {getUserByEmail} = require("../services/UserService");
 
 async function signToken(user) {
     const secret = Buffer.from(process.env.JWT_SECRET, "base64");
-
     return jwt.sign({email: user.email, id: user.id, roles: ["USER"]}, secret, {
         expiresIn: 86400 // expires in 24 hours
     });
@@ -19,23 +18,21 @@ async function getUserFromToken(token) {
 async function login(args) {
     try {
         const user = await getUserByEmail(args.email);
-        if(user){
+        if (user.Item) {
             const isValidPassword = await comparePassword(
                 args.password,
                 user.Item.password
             );
 
             if (isValidPassword) {
-                const token = await signToken(user);
-                return Promise.resolve({auth: true, token: token, status: "SUCCESS"});
+                const token = await signToken(user.Item);
+                return Promise.resolve({auth: true, 'code': 0, token: token});
             }
         }
 
-        return Promise.resolve({auth: false, 'message': "Password is not correct", status: "Fail"});
+        return Promise.resolve({auth: false, 'code': 10102, 'message': "User or Password is not correct"});
     } catch (err) {
-        console.info("Error login", err);
-        // return Promise.reject(new Error(err));
-        return Promise.resolve({auth: false, 'message': "User or password is not correct", status: "Fail"});
+        return Promise.resolve({auth: false, 'code': 10103, 'message': "Something was wrong"});
     }
 }
 
