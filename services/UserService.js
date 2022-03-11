@@ -26,6 +26,30 @@ const createUser = async props => {
     return UserItem;
 };
 
+const createAdmin = async props => {
+    const passwordHash = await bcrypt.hash(props.password, 8);
+
+    let UserItem = {
+        "id": uuid.v1(),
+        "name": props.name,
+        "password": passwordHash,
+        "email": props.email,
+        "type": 'Admin',
+        "created_at": new Date().getTime(),
+    };
+
+    const response = await docClient.put({
+        TableName: "UsersTable",
+        Item: UserItem,
+        ConditionExpression: 'attribute_not_exists(email)'
+    }).promise();
+
+    delete UserItem.password;
+    delete UserItem.type;
+
+    return UserItem;
+};
+
 const getUserByEmail = async email => {
     const params = {
         TableName: 'UsersTable',
@@ -60,6 +84,7 @@ const getUser = async props => {
 
 module.exports = {
     createUser,
-    getUserByEmail,
-    getUser
+    createAdmin,
+    getUser,
+    getUserByEmail
 };

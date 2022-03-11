@@ -10,7 +10,7 @@ me:
           identitySource: method.request.header.Authorization
           resultTtlInSeconds: 3600
 my-articles:
-  handler: functions/me/posts.handler
+  handler: functions/me/articles.handler
   events:
     - http:
         path: me/articles

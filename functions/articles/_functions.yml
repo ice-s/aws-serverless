@@ -1,7 +1,37 @@
-posts:
+post-list:
   handler: functions/articles/index.handler
   events:
     - http:
         path: /articles
         method: get
         cors: true
+post-show:
+  handler: functions/articles/show.handler
+  events:
+    - http:
+        path: /articles/{id}
+        method: get
+        cors: true
+post-create:
+  handler: functions/articles/create.handler
+  events:
+    - http:
+        path: /articles/create
+        method: post
+        cors: true
+        authorizer:
+          name: verify-token
+          identitySource: method.request.header.Authorization
+          resultTtlInSeconds: 3600
+post-update:
+  handler: functions/articles/update.handler
+  events:
+    - http:
+        path: /articles/{id}
+        method: post
+        cors: true
+        authorizer:
+          name: verify-token
+          identitySource: method.request.header.Authorization
+          resultTtlInSeconds: 3600
+

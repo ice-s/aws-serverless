@@ -29,13 +29,9 @@ module.exports.handler = function verifyToken(event, context, callback) {
     const methodArn = event.methodArn;
 
     if (!token || !methodArn) {
-        console.log("Unauthorized");
         return callback(null, "Unauthorized");
     }
     const secret = Buffer.from(process.env.JWT_SECRET, "base64");
-    console.log('-----------');
-    console.log(secret);
-    console.log("-----------");
     // verifies token
     const decoded = jwt.verify(token, secret);
 

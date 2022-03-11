@@ -1,7 +1,36 @@
-categories:
+category-list:
   handler: functions/categories/index.handler
   events:
     - http:
         path: /categories
         method: get
         cors: true
+category-show:
+  handler: functions/categories/show.handler
+  events:
+    - http:
+        path: /categories/{id}
+        method: get
+        cors: true
+category-create:
+  handler: functions/categories/create.handler
+  events:
+    - http:
+        path: /categories/create
+        method: post
+        cors: true
+        authorizer:
+          name: verify-token
+          identitySource: method.request.header.Authorization
+          resultTtlInSeconds: 3600
+category-update:
+  handler: functions/categories/update.handler
+  events:
+    - http:
+        path: /categories/{id}
+        method: post
+        cors: true
+        authorizer:
+          name: verify-token
+          identitySource: method.request.header.Authorization
+          resultTtlInSeconds: 3600
